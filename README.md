@@ -5,7 +5,7 @@ To create docker host nodes, docker-machine is used.
 Right now, only supported cloud provider is DigitalOcean
 
 ## Development
-Install a Go distribution (v1.10 or newer) and ensure GOPATH is set,
+Install a Go distribution (v1.8 or newer) and ensure GOPATH is set,
 see [Go Getting Started](https://golang.org/doc/install)
 
 Install a editor or IDE that supports go and debugging, e.g. [VS Code](https://code.visualstudio.com/download)
@@ -19,4 +19,9 @@ go build
 go test ./...
 ```
 
+Tool support (macOS):
+```
+brew install dep
+brew install go-delve/delve/delve
+```
 
