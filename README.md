@@ -16,6 +16,7 @@ go get github.com/davidjenni/coreUp
 cd $GOPATH/src/github.com/davidjenni/coreUp
 dep ensure
 go build
-go test
+go test ./...
 ```
+
 
