@@ -6,14 +6,18 @@ type Config struct {
 }
 
 // NewConfig initializes configuration for DigitalOcean VM
-func NewConfig(options *Options) *Config {
+func NewConfig(optionsYamlFile string) (*Config, error) {
+	var err error
 	d := &Config{}
-	if options == nil {
+	if optionsYamlFile == "" {
 		d.options = GetDefaults()
 	} else {
-		d.options = options
+		d.options, err = LoadOptionsFromFile(optionsYamlFile)
+		if err != nil {
+			return nil, err
+		}
 	}
-	return d
+	return d, nil
 }
 
 // Render a configuration's argument string array

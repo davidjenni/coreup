@@ -1,0 +1,7 @@
+image: debian-8-x64
+region: sfo2
+size: 4gb
+sshUser: foobar
+sshPort: 4410
+sshKeyFile: myKeyFile
+sshKeyFingerprint: abcd
