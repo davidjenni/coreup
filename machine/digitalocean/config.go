@@ -21,6 +21,6 @@ func NewConfig(optionsYamlFile string) (*Config, error) {
 }
 
 // Render a configuration's argument string array
-func (d Config) Render() ([]string, error) {
-	return d.options.Render()
+func (d Config) Render(apiToken string) ([]string, error) {
+	return d.options.Render(apiToken)
 }

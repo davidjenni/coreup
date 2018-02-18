@@ -11,18 +11,23 @@ import (
 
 func TestCreateDefaultArguments(t *testing.T) {
 
-	config := &Config{Name: "vm1", CloudProvider: "digitalocean"}
+	config := &Config{
+		VMName:        "vm1",
+		CloudProvider: "digitalocean",
+		CloudAPIToken: "fakeToken",
+	}
 
 	args, err := config.GetCreateArguments()
 	require.Nil(t, err)
 	require.NotEmpty(t, args)
 
 	assert := assert.New(t)
-	assert.Len(args, 16)
+	assert.Len(args, 18)
 	assert.Contains(args, "create")
 	assert.Contains(args, "digitalocean")
 
 	defaults := digitalocean.GetDefaults()
+	assert.Contains(args, "fakeToken")
 	assert.Contains(args, defaults.Region)
 	assert.Contains(args, defaults.Size)
 	assert.Contains(args, defaults.Image)
@@ -34,17 +39,23 @@ func TestCreateDefaultArguments(t *testing.T) {
 
 func TestCreateArgumentsFromFile(t *testing.T) {
 
-	config := &Config{Name: "vm1", CloudProvider: "digitalocean", OptionsYamlFile: "digitalocean/testdata/doOptions.yaml"}
+	config := &Config{
+		VMName:          "vm1",
+		CloudProvider:   "digitalocean",
+		OptionsYamlFile: "digitalocean/testdata/doOptions.yaml",
+		CloudAPIToken:   "fakeToken",
+	}
 
 	args, err := config.GetCreateArguments()
 	require.Nil(t, err)
 	require.NotEmpty(t, args)
 
 	assert := assert.New(t)
-	assert.Len(args, 20)
+	assert.Len(args, 22)
 	assert.Contains(args, "create")
 	assert.Contains(args, "digitalocean")
 
+	assert.Contains(args, "fakeToken")
 	assert.Contains(args, "sfo2", "incorrect region")
 	assert.Contains(args, "4gb", "incorrect size")
 	assert.Contains(args, "debian-8-x64", "incorrect image")
@@ -56,10 +67,20 @@ func TestCreateArgumentsFromFile(t *testing.T) {
 
 func TestCreateArgumentsFlagMissingReqOptions(t *testing.T) {
 
-	config := &Config{Name: "vm1", CloudProvider: "digitalocean", OptionsYamlFile: "digitalocean/testdata/doMissingRequiredOptions.yaml"}
+	config := &Config{VMName: "vm1", CloudProvider: "digitalocean", OptionsYamlFile: "digitalocean/testdata/doMissingRequiredOptions.yaml"}
 
 	args, err := config.GetCreateArguments()
 	require.Nil(t, args)
 	require.NotEmpty(t, err)
 	assert.Contains(t, err.Error(), "Missing required option")
+}
+
+func TestCreateArgumentsMissingApiToken(t *testing.T) {
+
+	config := &Config{VMName: "vm1", CloudProvider: "digitalocean"}
+
+	args, err := config.GetCreateArguments()
+	require.Nil(t, args)
+	require.NotEmpty(t, err)
+	assert.Contains(t, err.Error(), "Must specify cloud provider's API token")
 }

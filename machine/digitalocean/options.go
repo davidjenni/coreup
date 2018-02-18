@@ -1,6 +1,7 @@
 package digitalocean
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"strconv"
@@ -65,7 +66,7 @@ func loadOptions(buffer []byte) (*Options, error) {
 }
 
 // Render options as argument string array
-func (d Options) Render() ([]string, error) {
+func (d Options) Render(apiToken string) ([]string, error) {
 	defaults := GetDefaults()
 	err := ensureRequiredOptions(d)
 	if err != nil {
@@ -88,6 +89,13 @@ func (d Options) Render() ([]string, error) {
 	// opinionated: always enable IPv6 and private networks:
 	args = append(args, "--digitalocean-ipv6")
 	args = append(args, "--digitalocean-private-networking")
+	if apiToken == "" {
+		apiToken = os.Getenv("DIGITALOCEAN_ACCESS_TOKEN")
+	}
+	if apiToken == "" {
+		return nil, errors.New("Must specify cloud provider's API token, either as config.CloudAPIToken or as env variable DIGITALOCEAN_ACCESS_TOKEN")
+	}
+	args = append(args, "--digitalocean-access-token", apiToken)
 	return args, nil
 }
 

@@ -24,7 +24,7 @@ func New(name string) *Machine {
 
 // CreateMachine initiates the creation of a new VM
 func (m *Machine) CreateMachine(config *Config) error {
-	config.Name = m.Name
+	config.VMName = m.Name
 	cfg, error := config.GetCreateArguments()
 	if error != nil {
 		return error

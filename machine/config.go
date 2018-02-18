@@ -8,9 +8,10 @@ import (
 
 // Config represents the CoreOS VM configuration
 type Config struct {
-	Name            string
+	VMName          string
 	CloudProvider   string
 	OptionsYamlFile string
+	CloudAPIToken   string
 }
 
 // GetCreateArguments builds and returns a list of cmd line arguments to pass to docker-machine's create command
@@ -24,11 +25,11 @@ func (c Config) GetCreateArguments() ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	args, err := config.Render()
+	args, err := config.Render(c.CloudAPIToken)
 	if err != nil {
 		return nil, err
 	}
 	cmdArgs = append(cmdArgs, args...)
-	cmdArgs = append(cmdArgs, c.Name)
+	cmdArgs = append(cmdArgs, c.VMName)
 	return cmdArgs, nil
 }
