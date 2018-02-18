@@ -19,13 +19,13 @@ func (c Config) GetCreateArguments() ([]string, error) {
 		return nil, errors.New("Currently, the sole supported cloud provider is 'digitalocean'")
 	}
 
-	var cmdArgs = []string{"--driver", c.CloudProvider}
+	var cmdArgs = []string{"create", "--driver", c.CloudProvider}
 	config := digitalocean.NewConfig(nil)
 	args, err := config.Render()
 	if err != nil {
 		return nil, err
 	}
-	cmdArgs = append(args)
+	cmdArgs = append(cmdArgs, args...)
 	cmdArgs = append(cmdArgs, c.Name)
 	return cmdArgs, nil
 }

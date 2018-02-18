@@ -13,5 +13,5 @@ func TestCreateArguments(t *testing.T) {
 	args, err := config.GetCreateArguments()
 	assert.Nil(t, err)
 	assert.NotEmpty(t, args)
-	assert.Len(t, args, 13)
+	assert.Len(t, args, 16)
 }
