@@ -14,9 +14,10 @@ func TestCreateDefaultArguments(t *testing.T) {
 	config := &Config{Name: "vm1", CloudProvider: "digitalocean"}
 
 	args, err := config.GetCreateArguments()
-	assert := assert.New(t)
 	require.Nil(t, err)
-	assert.NotEmpty(args)
+	require.NotEmpty(t, args)
+
+	assert := assert.New(t)
 	assert.Len(args, 16)
 	assert.Contains(args, "create")
 	assert.Contains(args, "digitalocean")
@@ -36,9 +37,10 @@ func TestCreateArgumentsFromFile(t *testing.T) {
 	config := &Config{Name: "vm1", CloudProvider: "digitalocean", OptionsYamlFile: "digitalocean/testdata/doOptions.yaml"}
 
 	args, err := config.GetCreateArguments()
-	assert := assert.New(t)
 	require.Nil(t, err)
-	assert.NotEmpty(args)
+	require.NotEmpty(t, args)
+
+	assert := assert.New(t)
 	assert.Len(args, 20)
 	assert.Contains(args, "create")
 	assert.Contains(args, "digitalocean")
@@ -50,4 +52,14 @@ func TestCreateArgumentsFromFile(t *testing.T) {
 	assert.Contains(args, "4410", "incorrect sshPort")
 	assert.Contains(args, "myKeyFile", "incorrect sshKeyFile")
 	assert.Contains(args, "abcd", "incorrect sshKeyFingerprint")
+}
+
+func TestCreateArgumentsFlagMissingReqOptions(t *testing.T) {
+
+	config := &Config{Name: "vm1", CloudProvider: "digitalocean", OptionsYamlFile: "digitalocean/testdata/doMissingRequiredOptions.yaml"}
+
+	args, err := config.GetCreateArguments()
+	require.Nil(t, args)
+	require.NotEmpty(t, err)
+	assert.Contains(t, err.Error(), "Missing required option")
 }

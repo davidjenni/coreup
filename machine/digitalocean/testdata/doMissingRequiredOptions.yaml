@@ -1,0 +1,3 @@
+sshPort: 4410
+sshKeyFile: myKeyFile
+sshKeyFingerprint: abcd
