@@ -34,7 +34,8 @@ install:
   - dep ensure
 
 script:
-  - ./test-with-coverage.sh
+  - make validate
+  - scripts/test-with-coverage.sh
 
 after_success:
   # upload test coverage results to codecov.io:

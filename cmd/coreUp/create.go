@@ -1,4 +1,4 @@
-package coreup
+package main
 
 import (
 	"log"
