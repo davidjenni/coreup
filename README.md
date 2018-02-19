@@ -1,4 +1,7 @@
-# CoreUpSwarm
+# CoreUp
+
+[![Build Status](https://travis-ci.org/davidjenni/coreUp.svg?branch=master)](https://travis-ci.org/davidjenni/coreUp)
+[![Go Report Card](https://goreportcard.com/badge/github.com/davidjenni/coreUp)](https://goreportcard.com/report/github.com/davidjenni/coreUp)
 
 Create and manage CoreOS cluster (hosted on a cloud provider) and initialize a docker swarm.
 To create docker host nodes, docker-machine is used.
@@ -25,3 +28,5 @@ brew install dep
 brew install go-delve/delve/delve
 ```
 
+## License
+[MIT License](https://github.com/davidjenni/coreUp/blob/master/LICENSE)
