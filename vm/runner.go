@@ -1,4 +1,4 @@
-package machine
+package vm
 
 // Runner is an abstraction of os/exec's Cmd, Run & Output func; also useful for mocking
 type Runner interface {

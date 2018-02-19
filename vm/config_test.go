@@ -1,11 +1,11 @@
-package machine
+package vm
 
 import (
 	"os"
 	"strconv"
 	"testing"
 
-	"github.com/davidjenni/coreUp/machine/digitalocean"
+	"github.com/davidjenni/coreup/vm/digitalocean"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
