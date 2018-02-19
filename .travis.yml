@@ -1,7 +1,6 @@
 language: go
 
 go:
-  - 1.7.x
   - 1.8.x
   - 1.9.x
   - 1.10.x
@@ -19,4 +18,8 @@ install:
   - dep ensure
 
 script:
-  - go test -v ./...
+  - ./test-with-coverage.sh
+
+after_success:
+  # upload test coverage results to codecov.io:
+  - bash <(curl -s https://codecov.io/bash)

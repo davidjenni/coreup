@@ -1,6 +1,7 @@
 # CoreUp
 
 [![Build Status](https://travis-ci.org/davidjenni/coreUp.svg?branch=master)](https://travis-ci.org/davidjenni/coreUp)
+[![Coverage](https://codecov.io/gh/davidjenni/coreUp/branch/master/graph/badge.svg)](https://codecov.io/gh/davidjenni/coreUp)
 [![Go Report Card](https://goreportcard.com/badge/github.com/davidjenni/coreUp)](https://goreportcard.com/report/github.com/davidjenni/coreUp)
 
 Create and manage CoreOS cluster (hosted on a cloud provider) and initialize a docker swarm.
@@ -14,7 +15,7 @@ see [Go Getting Started](https://golang.org/doc/install)
 Install a editor or IDE that supports go and debugging, e.g. [VS Code](https://code.visualstudio.com/download)
 
 ```
-brew install dep
+brew install go dep
 go get github.com/davidjenni/coreUp
 cd $GOPATH/src/github.com/davidjenni/coreUp
 dep ensure
