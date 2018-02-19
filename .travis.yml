@@ -1,0 +1,22 @@
+language: go
+
+go:
+  - 1.7.x
+  - 1.8.x
+  - 1.9.x
+  - 1.10.x
+
+env:
+  # pin dep version until its v1 is released
+  - DEP_VERSION="0.4.1"
+
+before_install:
+  # no deb package yet, install from its github release drop:
+  - curl -L -s https://github.com/golang/dep/releases/download/v${DEP_VERSION}/dep-linux-amd64 -o $GOPATH/bin/dep
+  - chmod +x $GOPATH/bin/dep
+
+install:
+  - dep ensure
+
+script:
+  - go test -v ./...
