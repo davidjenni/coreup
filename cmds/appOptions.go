@@ -7,6 +7,7 @@ import (
 	"github.com/urfave/cli"
 )
 
+// AppOptions declares app-wide options
 type AppOptions struct {
 	Name            string
 	Usage           string
@@ -15,6 +16,7 @@ type AppOptions struct {
 	CommandNotFound cli.CommandNotFoundFunc
 }
 
+// GetAppOptions initializes app-wide options
 func GetAppOptions() *AppOptions {
 	return &AppOptions{
 		Name:  "coreUp",
