@@ -1,5 +1,9 @@
 language: go
 
+os:
+  - linux
+  - osx
+
 go:
   - 1.8.x
   - 1.9.x
@@ -7,12 +11,24 @@ go:
 
 env:
   # pin dep version until its v1 is released
-  - DEP_VERSION="0.4.1"
+  - DEP_RELEASE_PATH="https://github.com/golang/dep/releases/download/v0.4.1"
+
+matrix:
+  exclude:
+    # limit macOS builds to latest go version (macOS is dev platform, uses latest go)
+    - os: osx
+      go: 1.8.x
+    - os: osx
+      go: 1.9.x
 
 before_install:
-  # no deb package yet, install from its github release drop:
-  - curl -L -s https://github.com/golang/dep/releases/download/v${DEP_VERSION}/dep-linux-amd64 -o $GOPATH/bin/dep
-  - chmod +x $GOPATH/bin/dep
+  # dep is still pre-release, install pinned version from its github release drop:
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      curl -L -s "$DEP_RELEASE_PATH/dep-linux-amd64" -o $GOPATH/bin/dep;
+      chmod +x $GOPATH/bin/dep;
+    fi
+  # can't install via curl for macOS, so no pinning on mac
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install dep; fi
 
 install:
   - dep ensure
