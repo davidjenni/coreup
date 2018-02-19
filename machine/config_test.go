@@ -1,6 +1,7 @@
 package machine
 
 import (
+	"os"
 	"strconv"
 	"testing"
 
@@ -79,8 +80,19 @@ func TestCreateArgumentsMissingApiToken(t *testing.T) {
 
 	config := &Config{VMName: "vm1", CloudProvider: "digitalocean"}
 
-	args, err := config.GetCreateArguments()
+	// shell/parent process might have this set; unset it for this test fixture
+	os.Unsetenv("DIGITALOCEAN_ACCESS_TOKEN")
+
+	var args []string
+	var err error
+	args, err = config.GetCreateArguments()
 	require.Nil(t, args)
 	require.NotEmpty(t, err)
 	assert.Contains(t, err.Error(), "Must specify cloud provider's API token")
+
+	os.Setenv("DIGITALOCEAN_ACCESS_TOKEN", "fakeToken2")
+	args, err = config.GetCreateArguments()
+	require.Nil(t, err)
+	require.NotEmpty(t, args)
+	assert.Contains(t, args, "fakeToken2")
 }
