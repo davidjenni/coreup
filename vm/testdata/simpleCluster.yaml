@@ -1,0 +1,9 @@
+manager:
+  basename: minion-mgr-
+  nodeCount: 3
+  vmOptionsFile: ""
+
+worker:
+  basename: minion-
+  nodeCount: 2
+  vmOptionsFile: ""
