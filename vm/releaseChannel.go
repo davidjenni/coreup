@@ -1,4 +1,4 @@
-package machine
+package vm
 
 // ReleaseChannel enum represents a CoreOS release channel
 type ReleaseChannel int

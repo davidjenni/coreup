@@ -1,9 +1,9 @@
-package machine_test
+package vm_test
 
 import (
 	"testing"
 
-	"github.com/davidjenni/coreUp/machine"
+	"github.com/davidjenni/coreup/vm"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
@@ -23,11 +23,11 @@ func TestExistsForKnownMachine(t *testing.T) {
 	runner := &mockRunner{expectedName: machName}
 	runner.On("Run", "docker-machine", []string{"ls", "-q"}).Return(machName, nil)
 
-	config := &machine.Config{
+	config := &vm.Config{
 		VMName: machName,
 	}
 
-	m := machine.New(config, runner)
+	m := vm.New(config, runner)
 	result, err := m.Exists()
 	assert.Nil(t, err)
 	assert.True(t, result, "machine should exist")
@@ -68,13 +68,13 @@ Docker is up and running!
 To see how to connect your Docker Client to the Docker Engine running on this virtual machine, run: docker-machine env minion
 `, nil)
 
-	config := &machine.Config{
+	config := &vm.Config{
 		VMName:        machName,
 		CloudProvider: "digitalocean",
 		CloudAPIToken: "fakeToken",
 	}
 
-	m := machine.New(config, runner)
+	m := vm.New(config, runner)
 	err := m.CreateMachine()
 	assert.Nil(t, err)
 }

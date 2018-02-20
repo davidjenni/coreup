@@ -1,9 +1,9 @@
-package machine
+package vm
 
 import (
 	"errors"
 
-	"github.com/davidjenni/coreUp/machine/digitalocean"
+	"github.com/davidjenni/coreup/vm/digitalocean"
 )
 
 // Config represents the CoreOS VM configuration

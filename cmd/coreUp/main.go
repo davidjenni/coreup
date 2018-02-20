@@ -3,7 +3,6 @@ package main
 import (
 	"os"
 
-	"github.com/davidjenni/coreUp/cmds"
 	"github.com/urfave/cli"
 )
 
@@ -13,7 +12,7 @@ func main() {
 	app := cli.NewApp()
 	app.Version = appVersion
 
-	appOptions := cmds.GetAppOptions()
+	appOptions := GetAppOptions()
 	app.Name = appOptions.Name
 	app.Usage = appOptions.Usage
 	app.Flags = appOptions.AppFlags
