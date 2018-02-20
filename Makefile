@@ -15,12 +15,9 @@ build:
 	go build -o $(OUT) ./cmd/coreUp
 
 validate: build lint vet megacheck
-	golint $(PKG_LIST)
 
 lint:
-	@for file in $(GO_FILES) ;  do \
-		golint $$file ; \
-	done
+	golint $(PKG_LIST)
 
 vet:
 	go vet $(PKG_LIST)
