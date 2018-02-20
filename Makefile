@@ -4,7 +4,7 @@ default: build validate test
 
 OUT := coreUp
 # PKGS := $(shell go list ./... | grep -vF /vendor/)
-PKG_LIST := $(shell go list ./...)
+PKG_LIST := $(shell go list ./... | grep -v /vendor/)
 GO_FILES := $(shell find . -name '*.go' | grep -v /vendor/)
 
 get-tools:
@@ -33,8 +33,8 @@ install:
 	go install ./cmd/coreUp
 
 clean:
-	-@rm $(OUT)
-	-@rm coverage.txt
-	-@rm debug.test
+	-@rm $(OUT) || true
+	-@rm coverage.txt || true
+	-@rm debug.test || true
 
 .PHONY: build validate lint vet test install clean get-tools megacheck
