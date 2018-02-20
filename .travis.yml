@@ -32,6 +32,7 @@ before_install:
 
 install:
   - dep ensure
+  - make get-tools
 
 script:
   - make validate
