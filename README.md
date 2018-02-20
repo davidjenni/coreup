@@ -1,8 +1,8 @@
 # CoreUp
 
-[![Build Status](https://travis-ci.org/davidjenni/coreUp.svg?branch=master)](https://travis-ci.org/davidjenni/coreUp)
-[![Coverage](https://codecov.io/gh/davidjenni/coreUp/branch/master/graph/badge.svg)](https://codecov.io/gh/davidjenni/coreUp)
-[![Go Report Card](https://goreportcard.com/badge/github.com/davidjenni/coreUp)](https://goreportcard.com/report/github.com/davidjenni/coreUp)
+[![Build Status](https://travis-ci.org/davidjenni/coreup.svg?branch=master)](https://travis-ci.org/davidjenni/coreup)
+[![Coverage](https://codecov.io/gh/davidjenni/coreup/branch/master/graph/badge.svg)](https://codecov.io/gh/davidjenni/coreup)
+[![Go Report Card](https://goreportcard.com/badge/github.com/davidjenni/coreup)](https://goreportcard.com/report/github.com/davidjenni/coreup)
 
 Create and manage CoreOS cluster (hosted on a cloud provider) and initialize a docker swarm.
 To create docker host nodes, docker-machine is used.
@@ -16,18 +16,18 @@ Install a editor or IDE that supports go and debugging, e.g. [VS Code](https://c
 
 ```
 brew install go dep
-go get github.com/davidjenni/coreUp
-cd $GOPATH/src/github.com/davidjenni/coreUp
+go get github.com/davidjenni/coreup
+cd $GOPATH/src/github.com/davidjenni/coreup
 dep ensure
-go build
-go test ./...
+make
 ```
 
 Tool support (macOS):
 ```
 brew install dep
 brew install go-delve/delve/delve
+make get-tools
 ```
 
 ## License
-[MIT License](https://github.com/davidjenni/coreUp/blob/master/LICENSE)
+[MIT License](https://github.com/davidjenni/coreup/blob/master/LICENSE)
