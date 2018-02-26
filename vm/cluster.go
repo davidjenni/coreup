@@ -10,7 +10,8 @@ import (
 type ClusterSet struct {
 	Basename      string `yaml:"basename"`
 	NodeCount     int    `yaml:"nodeCount"`
-	VMOptionsFile string `yaml:"vmOptionsFile"`
+	VMOptionsFile string `yaml:"vmOptionsFile,omitempty"`
+	VMOptions     Config `yaml:"-"`
 }
 
 // Cluster describes the build-out info for 2 cluster sets:
