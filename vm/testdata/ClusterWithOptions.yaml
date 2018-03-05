@@ -1,10 +1,11 @@
 --- # simple cluster
+cloudProvider: "digitalocean"
 manager:
   basename: "minion-mgr-%02d"
   nodeCount: 3
-  vmOptionsFile: "doVmOptions.yaml"
+  vmOptionsFile: "testdata/doVmOptions.yaml"
 
 worker:
   basename: "minion-%02d"
   nodeCount: 2
-  vmOptionsFile: ""doVmOptions.yaml
+  vmOptionsFile: "testdata/doVmOptions.yaml"

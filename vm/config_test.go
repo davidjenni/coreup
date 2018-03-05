@@ -1,22 +1,21 @@
-package vm
+package vm_test
 
 import (
 	"os"
 	"strconv"
 	"testing"
 
+	"github.com/davidjenni/coreup/vm"
 	"github.com/davidjenni/coreup/vm/digitalocean"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
 func TestCreateDefaultArguments(t *testing.T) {
-
-	config := &Config{
-		VMName:        "vm1",
-		CloudProvider: "digitalocean",
-		CloudAPIToken: "fakeToken",
-	}
+	var err error
+	config, err := vm.NewConfig("vm1", "digitalocean", "")
+	require.Nil(t, err)
+	config.CloudAPIToken = "fakeToken"
 
 	args, err := config.GetCreateArguments()
 	require.Nil(t, err)
@@ -39,13 +38,10 @@ func TestCreateDefaultArguments(t *testing.T) {
 }
 
 func TestCreateArgumentsFromFile(t *testing.T) {
-
-	config := &Config{
-		VMName:          "vm1",
-		CloudProvider:   "digitalocean",
-		OptionsYamlFile: "digitalocean/testdata/doOptions.yaml",
-		CloudAPIToken:   "fakeToken",
-	}
+	var err error
+	config, err := vm.NewConfig("vm1", "digitalocean", "digitalocean/testdata/doOptions.yaml")
+	require.Nil(t, err)
+	config.CloudAPIToken = "fakeToken"
 
 	args, err := config.GetCreateArguments()
 	require.Nil(t, err)
@@ -67,24 +63,22 @@ func TestCreateArgumentsFromFile(t *testing.T) {
 }
 
 func TestCreateArgumentsFlagMissingReqOptions(t *testing.T) {
-
-	config := &Config{VMName: "vm1", CloudProvider: "digitalocean", OptionsYamlFile: "digitalocean/testdata/doMissingRequiredOptions.yaml"}
-
-	args, err := config.GetCreateArguments()
-	require.Nil(t, args)
+	var err error
+	config, err := vm.NewConfig("vm1", "digitalocean", "digitalocean/testdata/doMissingRequiredOptions.yaml")
+	require.Nil(t, config)
 	require.NotEmpty(t, err)
 	assert.Contains(t, err.Error(), "Missing required option")
 }
 
 func TestCreateArgumentsMissingApiToken(t *testing.T) {
-
-	config := &Config{VMName: "vm1", CloudProvider: "digitalocean"}
+	var err error
+	config, err := vm.NewConfig("vm1", "digitalocean", "")
+	require.Nil(t, err)
 
 	// shell/parent process might have this set; unset it for this test fixture
 	os.Unsetenv("DIGITALOCEAN_ACCESS_TOKEN")
 
 	var args []string
-	var err error
 	args, err = config.GetCreateArguments()
 	require.Nil(t, args)
 	require.NotEmpty(t, err)

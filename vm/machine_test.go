@@ -68,13 +68,12 @@ Docker is up and running!
 To see how to connect your Docker Client to the Docker Engine running on this virtual machine, run: docker-machine env minion
 `, nil)
 
-	config := &vm.Config{
-		VMName:        machName,
-		CloudProvider: "digitalocean",
-		CloudAPIToken: "fakeToken",
-	}
+	var err error
+	config, err := vm.NewConfig(machName, "digitalocean", "")
+	assert.Nil(t, err)
+	config.CloudAPIToken = "fakeToken"
 
 	m := vm.New(config, runner)
-	err := m.CreateMachine()
+	err = m.CreateMachine()
 	assert.Nil(t, err)
 }
