@@ -3,6 +3,7 @@ package digitalocean
 import (
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"strconv"
 
@@ -35,20 +36,7 @@ func GetDefaults() *Options {
 func LoadOptionsFromFile(optionsYamlFile string) (*Options, error) {
 	var err error
 
-	fileInfo, err := os.Stat(optionsYamlFile)
-	if err != nil {
-		return nil, err
-	}
-	fileSize := fileInfo.Size()
-
-	fp, err := os.Open(optionsYamlFile)
-	if err != nil {
-		return nil, err
-	}
-	defer fp.Close()
-
-	buffer := make([]byte, fileSize)
-	_, err = fp.Read(buffer)
+	buffer, err := ioutil.ReadFile(optionsYamlFile)
 	if err != nil {
 		return nil, err
 	}

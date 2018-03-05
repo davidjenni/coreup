@@ -16,13 +16,14 @@ type Machine struct {
 
 const dockerMachine = "docker-machine"
 
-// New instance of Machine
-func New(config *Config, runnerOpt ...Runner) *Machine {
+// NewMachine instance of Machine
+func NewMachine(config *Config, runnerOpt ...Runner) *Machine {
 	// sure wished golang had optional/default values, but alas...:
 	var runner Runner
 	if len(runnerOpt) > 0 {
 		runner = runnerOpt[0]
-	} else {
+	}
+	if runner == nil {
 		runner = shellRun{}
 	}
 	return &Machine{config: config, runner: runner}

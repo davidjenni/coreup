@@ -1,0 +1,5 @@
+image: coreos-stable
+region: sfo2
+size: s-1vcpu-1gb
+sshUser: core
+sshPort: 22
