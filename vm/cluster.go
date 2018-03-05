@@ -3,6 +3,7 @@ package vm
 import (
 	"errors"
 	"io/ioutil"
+	"path"
 
 	"gopkg.in/yaml.v2"
 )
@@ -52,6 +53,7 @@ func LoadClusterConfig(clusterConfigFile string) (*Cluster, error) {
 		return nil, err
 	}
 
+	var basePath = path.Dir(clusterConfigFile)
 	var cluster Cluster
 	err = yaml.Unmarshal(buffer, &cluster)
 	if err != nil {
@@ -61,19 +63,26 @@ func LoadClusterConfig(clusterConfigFile string) (*Cluster, error) {
 	if cluster.CloudProvider != "digitalocean" {
 		return nil, errors.New("Currently, the sole supported cloud provider is 'digitalocean'")
 	}
-	cluster.Manager.providerConfig, err = cluster.loadOptions(cluster.Manager.VMOptionsFile)
+	cluster.Manager.providerConfig, err = cluster.loadOptions(basePath, cluster.Manager.VMOptionsFile)
 	if err != nil {
 		return nil, err
 	}
-	cluster.Manager.VMOptionsFile = ""
-	cluster.Worker.providerConfig, err = cluster.loadOptions(cluster.Worker.VMOptionsFile)
+	cluster.Worker.providerConfig, err = cluster.loadOptions(basePath, cluster.Worker.VMOptionsFile)
 	if err != nil {
 		return nil, err
 	}
-	cluster.Worker.VMOptionsFile = ""
 	return &cluster, nil
 }
 
-func (c Cluster) loadOptions(optionsFile string) (ConfigRenderer, error) {
-	return LoadProviderConfig(c.CloudProvider, optionsFile)
+func (c Cluster) loadOptions(basePath string, optionsFile string) (ConfigRenderer, error) {
+	if optionsFile == "" {
+		return GetDefaultProviderConfig(c.CloudProvider)
+	}
+	var fqnOptsFile string
+	if path.IsAbs(optionsFile) {
+		fqnOptsFile = optionsFile
+	} else {
+		fqnOptsFile = path.Join(basePath, optionsFile)
+	}
+	return LoadProviderConfig(c.CloudProvider, fqnOptsFile)
 }
