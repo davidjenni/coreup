@@ -5,18 +5,7 @@ import (
 
 	"github.com/davidjenni/coreup/vm"
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 )
-
-type mockRunner struct {
-	expectedName string
-	mock.Mock
-}
-
-func (r *mockRunner) Run(exeName string, args ...string) (string, error) {
-	result := r.Called("docker-machine", args)
-	return result.String(0), result.Error(1)
-}
 
 func TestExistsForKnownMachine(t *testing.T) {
 	machName := "minion"
@@ -27,7 +16,7 @@ func TestExistsForKnownMachine(t *testing.T) {
 		VMName: machName,
 	}
 
-	m := vm.New(config, runner)
+	m := vm.NewMachine(config, runner)
 	result, err := m.Exists()
 	assert.Nil(t, err)
 	assert.True(t, result, "machine should exist")
@@ -73,7 +62,7 @@ To see how to connect your Docker Client to the Docker Engine running on this vi
 	assert.Nil(t, err)
 	config.CloudAPIToken = "fakeToken"
 
-	m := vm.New(config, runner)
+	m := vm.NewMachine(config, runner)
 	err = m.CreateMachine()
 	assert.Nil(t, err)
 }

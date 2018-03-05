@@ -21,14 +21,19 @@ func NewConfig(vmName string, cloudProvider string, optionsYamlFile string) (*Co
 		return nil, errors.New("Currently, the sole supported cloud provider is 'digitalocean'")
 	}
 
-	config, err := digitalocean.NewConfig(optionsYamlFile)
+	providerConfig, err := digitalocean.NewConfig(optionsYamlFile)
 	if err != nil {
 		return nil, err
 	}
+	return NewConfigFrom(vmName, cloudProvider, providerConfig)
+}
+
+// NewConfigFrom returns a new VM configuration from an already existing providerConfig
+func NewConfigFrom(vmName string, cloudProvider string, providerConfig ConfigRenderer) (*Config, error) {
 	return &Config{
 		VMName:         vmName,
 		CloudProvider:  cloudProvider,
-		providerConfig: config,
+		providerConfig: providerConfig,
 	}, nil
 }
 

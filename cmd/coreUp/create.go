@@ -16,7 +16,7 @@ func Create(c *cli.Context) error {
 		log.Fatalf("Cannot create VM: %s", error.Error())
 	}
 	config.CloudAPIToken = c.GlobalString("apiToken")
-	m := vm.New(config)
+	m := vm.NewMachine(config)
 	error = m.CreateMachine()
 	if error != nil {
 		log.Fatalf("Cannot create VM: %s", error.Error())
