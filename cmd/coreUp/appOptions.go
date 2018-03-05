@@ -41,12 +41,12 @@ func GetAppOptions() *AppOptions {
 var commands = []cli.Command{
 	{
 		Name:   "create",
-		Usage:  "Create a new cloud VM with CoreOS and join it to a swarm",
+		Usage:  "Create a cluster of cloud VM with CoreOS",
 		Action: Create,
 		Flags: []cli.Flag{
 			cli.StringFlag{
-				Name:  "name",
-				Value: "minion",
+				Name:  "clusterConfig",
+				Usage: "YAML file with cluster configuration",
 			},
 		},
 	},

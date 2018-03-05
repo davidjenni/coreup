@@ -7,19 +7,17 @@ import (
 	"github.com/urfave/cli"
 )
 
-// Create will call docker-machine to create a new VM in the cloud
+// Create will call docker-machine to create all VMs defined in cluster config file
 func Create(c *cli.Context) error {
 	var error error
-	// TODO: add options file argument
-	config, error := vm.NewConfig(c.String("name"), c.GlobalString("cloudProvider"), "")
+	configFile := c.String("clusterConfig")
+	cluster, error := vm.LoadClusterConfig(configFile)
 	if error != nil {
-		log.Fatalf("Cannot create VM: %s", error.Error())
+		log.Fatalf("Cannot load cluster configuration file '%s': %s", configFile, error.Error())
 	}
-	config.CloudAPIToken = c.GlobalString("apiToken")
-	m := vm.NewMachine(config)
-	error = m.CreateMachine()
+	error = cluster.CreateVMs(c.GlobalString("apiToken"))
 	if error != nil {
-		log.Fatalf("Cannot create VM: %s", error.Error())
+		log.Fatalf("Cannot create cluster: %s", error.Error())
 	}
 	return error
 }
